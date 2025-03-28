@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 interface Recommendation {
@@ -23,6 +23,7 @@ export default function BudgetCalculator() {
   >([]);
   const [showResults, setShowResults] = useState(true);
   const [calculationPerformed, setCalculationPerformed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Calculate recommendations based on inputs
   const getRecommendations = (): Recommendation[] => {
@@ -193,34 +194,40 @@ export default function BudgetCalculator() {
   };
 
   const handleCalculate = () => {
-    const budgetElement = document.getElementById(
-      "budget"
-    ) as HTMLSelectElement;
-    if (budgetElement) {
-      setBudget(parseInt(budgetElement.value));
-    }
+    setIsLoading(true);
 
-    const priorityElement = document.getElementById(
-      "priority"
-    ) as HTMLSelectElement;
-    if (priorityElement) {
-      setPrioritizeGPU(priorityElement.value === "performance");
-      setPrioritizeRAM(priorityElement.value === "value");
-      setPrioritizeStorage(priorityElement.value === "silence");
-    }
+    // Simulate calculation process
+    setTimeout(() => {
+      const budgetElement = document.getElementById(
+        "budget"
+      ) as HTMLSelectElement;
+      if (budgetElement) {
+        setBudget(parseInt(budgetElement.value));
+      }
 
-    const modelSizeElement = document.getElementById(
-      "model_size"
-    ) as HTMLSelectElement;
-    if (modelSizeElement) {
-      setModelSize(modelSizeElement.value);
-    }
+      const priorityElement = document.getElementById(
+        "priority"
+      ) as HTMLSelectElement;
+      if (priorityElement) {
+        setPrioritizeGPU(priorityElement.value === "performance");
+        setPrioritizeRAM(priorityElement.value === "value");
+        setPrioritizeStorage(priorityElement.value === "silence");
+      }
 
-    // Get the updated recommendations based on the new values
-    const newRecommendations = getRecommendations();
-    setSelectedRecommendations(newRecommendations);
-    setCalculationPerformed(true);
-    setShowResults(true);
+      const modelSizeElement = document.getElementById(
+        "model_size"
+      ) as HTMLSelectElement;
+      if (modelSizeElement) {
+        setModelSize(modelSizeElement.value);
+      }
+
+      // Get the updated recommendations based on the new values
+      const newRecommendations = getRecommendations();
+      setSelectedRecommendations(newRecommendations);
+      setCalculationPerformed(true);
+      setShowResults(true);
+      setIsLoading(false);
+    }, 800); // Simulate a short calculation time for better UX
   };
 
   // Get recommendations based on current state
@@ -253,138 +260,229 @@ export default function BudgetCalculator() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-8 md:p-24">
-      <div className="max-w-4xl w-full">
-        <h1 className="text-4xl font-bold mb-6">
-          AI Desktop Budget Calculator
-        </h1>
-        <p className="text-xl mb-10 text-gray-300">
-          Tell us your budget and priorities, and we'll recommend the best
-          desktop configuration for AI inference
-        </p>
+    <div className="flex min-h-screen flex-col items-center p-6 md:p-12">
+      <div className="max-w-5xl w-full">
+        <div className="text-center mb-12 animate-slide-up">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+            AI Desktop Budget Calculator
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Tell us your budget and priorities, and we'll recommend the best
+            desktop configuration for AI inference
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-1 bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <h2 className="text-2xl font-semibold mb-6">Your Preferences</h2>
+          <div
+            className="lg:col-span-1 card p-8 animate-fade-in"
+            style={{ animationDelay: "0.2s" }}
+          >
+            <h2 className="text-2xl font-semibold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+              Your Preferences
+            </h2>
 
             <div className="space-y-6">
               <div>
                 <label
                   htmlFor="budget"
-                  className="block text-sm font-medium mb-2"
+                  className="block text-sm font-medium mb-2 text-blue-300"
                 >
                   Your Budget (€)
                 </label>
-                <select
-                  id="budget"
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="1500">Up to €1,500</option>
-                  <option value="2000">€1,500 - €2,000</option>
-                  <option value="2500" selected>
-                    €2,000 - €2,500
-                  </option>
-                  <option value="3000">€2,500 - €3,000</option>
-                  <option value="3500">€3,000+</option>
-                </select>
+                <div className="relative">
+                  <select
+                    id="budget"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800/60 border border-blue-500/30 focus:ring-blue-500 focus:border-blue-500 shadow-inner transition-all hover:border-blue-500/50 appearance-none"
+                  >
+                    <option value="1500">Up to €1,500</option>
+                    <option value="2000">€1,500 - €2,000</option>
+                    <option value="2500" selected>
+                      €2,000 - €2,500
+                    </option>
+                    <option value="3000">€2,500 - €3,000</option>
+                    <option value="3500">€3,000+</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-blue-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               <div>
                 <label
                   htmlFor="priority"
-                  className="block text-sm font-medium mb-2"
+                  className="block text-sm font-medium mb-2 text-blue-300"
                 >
                   Your Priority
                 </label>
-                <select
-                  id="priority"
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="performance">Maximum Performance</option>
-                  <option value="value" selected>
-                    Best Value
-                  </option>
-                  <option value="silence">Quiet Operation</option>
-                  <option value="prebuilt">Pre-built System</option>
-                </select>
+                <div className="relative">
+                  <select
+                    id="priority"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800/60 border border-blue-500/30 focus:ring-blue-500 focus:border-blue-500 shadow-inner transition-all hover:border-blue-500/50 appearance-none"
+                  >
+                    <option value="performance">Maximum Performance</option>
+                    <option value="value" selected>
+                      Best Value
+                    </option>
+                    <option value="silence">Quiet Operation</option>
+                    <option value="prebuilt">Pre-built System</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-blue-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               <div>
                 <label
                   htmlFor="model_size"
-                  className="block text-sm font-medium mb-2"
+                  className="block text-sm font-medium mb-2 text-blue-300"
                 >
                   AI Model Size
                 </label>
-                <select
-                  id="model_size"
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="small">Small (7B-13B parameters)</option>
-                  <option value="medium" selected>
-                    Medium (30B-70B parameters)
-                  </option>
-                  <option value="large">Large (70B+ parameters)</option>
-                </select>
+                <div className="relative">
+                  <select
+                    id="model_size"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800/60 border border-blue-500/30 focus:ring-blue-500 focus:border-blue-500 shadow-inner transition-all hover:border-blue-500/50 appearance-none"
+                  >
+                    <option value="small">Small (7B-13B parameters)</option>
+                    <option value="medium" selected>
+                      Medium (30B-70B parameters)
+                    </option>
+                    <option value="large">Large (70B+ parameters)</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-blue-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               <button
                 type="button"
                 onClick={handleCalculate}
-                className="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors flex items-center justify-center gap-2"
+                disabled={isLoading}
+                className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-lg font-medium text-white transition-all shadow-md hover:shadow-lg active:shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                <span>Calculate Recommendation</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
+                {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span>Calculating...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Calculate Recommendation</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </>
+                )}
               </button>
             </div>
           </div>
 
-          <div className="lg:col-span-2 bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <h2 className="text-2xl font-semibold mb-6">
+          <div
+            className="lg:col-span-2 card p-8 animate-fade-in"
+            style={{ animationDelay: "0.3s" }}
+          >
+            <h2 className="text-2xl font-semibold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
               Recommended Configuration
               {calculationPerformed && (
-                <span className="text-sm text-green-400 ml-2">(Updated!)</span>
+                <span className="text-sm text-green-400 ml-2 animate-pulse-subtle">
+                  Updated!
+                </span>
               )}
             </h2>
 
             {primaryRecommendation && (
-              <div className="space-y-6">
+              <div
+                className={`space-y-6 ${
+                  calculationPerformed ? "animate-fade-in" : ""
+                }`}
+              >
                 <div className="flex flex-col md:flex-row items-start justify-between gap-4 mb-6">
                   <div>
-                    <h3 className="text-xl font-medium">
+                    <h3 className="text-xl font-medium text-white">
                       {primaryRecommendation.name}
                     </h3>
                     <p className="text-green-400">
                       {primaryRecommendation.description}
                     </p>
                   </div>
-                  <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                    <p className="font-medium">
+                  <div className="value-badge value-badge-high">
+                    <span className="font-medium">
                       Price: {primaryRecommendation.price}
-                    </p>
+                    </span>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium mb-2">
+                  <h4 className="text-lg font-medium mb-4 text-blue-300">
                     Key Specifications:
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <ul className="space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-blue-900/10 border border-blue-700/30 rounded-xl p-5">
+                      <ul className="space-y-3">
                         {primaryRecommendation.specs
                           .split(",")
                           .map((spec, index) => {
@@ -425,71 +523,205 @@ export default function BudgetCalculator() {
                                 : spec.trim();
                             }
 
+                            const icons: Record<string, JSX.Element> = {
+                              GPU: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-blue-400"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                  />
+                                </svg>
+                              ),
+                              CPU: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-blue-400"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                  />
+                                </svg>
+                              ),
+                              RAM: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-blue-400"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                  />
+                                </svg>
+                              ),
+                              Storage: (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-blue-400"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+                                  />
+                                </svg>
+                              ),
+                            };
+
                             return (
-                              <li key={index}>
-                                <span className="font-medium">{type}:</span>{" "}
-                                {details}
+                              <li
+                                key={index}
+                                className="flex items-center gap-3"
+                              >
+                                {icons[type] || (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 text-blue-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                  </svg>
+                                )}
+                                <span>
+                                  <span className="font-medium text-blue-300">
+                                    {type}:
+                                  </span>{" "}
+                                  <span className="text-gray-300">
+                                    {details}
+                                  </span>
+                                </span>
                               </li>
                             );
                           })}
                       </ul>
                     </div>
-                    <div>
-                      <h5 className="font-medium mb-2">AI Performance:</h5>
-                      <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1">
-                        <div
-                          className="bg-blue-600 h-2.5 rounded-full"
-                          style={{
-                            width: getPerformancePercent(
-                              primaryRecommendation.performance
-                            ),
-                          }}
-                        ></div>
+                    <div className="space-y-6">
+                      <div>
+                        <h5 className="font-medium mb-3 text-blue-300 flex items-center gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
+                          </svg>
+                          AI Performance:
+                        </h5>
+                        <div className="progress-bar">
+                          <div
+                            className="progress-bar-fill"
+                            style={{
+                              width: getPerformancePercent(
+                                primaryRecommendation.performance
+                              ),
+                            }}
+                          ></div>
+                        </div>
+                        <p className="text-sm text-gray-300 mt-2">
+                          {primaryRecommendation.performance}
+                        </p>
                       </div>
-                      <p className="text-sm text-gray-400">
-                        {primaryRecommendation.performance}
-                      </p>
 
-                      <h5 className="font-medium mt-4 mb-2">
-                        Budget Utilization:
-                      </h5>
-                      <div className="w-full bg-gray-700 rounded-full h-2.5 mb-1">
-                        <div
-                          className="bg-green-500 h-2.5 rounded-full"
-                          style={{
-                            width: `${
-                              budget <= 2000 ? 75 : budget <= 2500 ? 90 : 100
-                            }%`,
-                          }}
-                        ></div>
+                      <div>
+                        <h5 className="font-medium mb-3 text-blue-300 flex items-center gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          Budget Utilization:
+                        </h5>
+                        <div className="progress-bar">
+                          <div
+                            className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500 ease-out"
+                            style={{
+                              width: `${
+                                budget <= 2000 ? 75 : budget <= 2500 ? 90 : 100
+                              }%`,
+                            }}
+                          ></div>
+                        </div>
+                        <p className="text-sm text-gray-300 mt-2">
+                          {budget <= 2000
+                            ? "75"
+                            : budget <= 2500
+                            ? "90"
+                            : "100"}
+                          % of max budget
+                        </p>
                       </div>
-                      <p className="text-sm text-gray-400">
-                        {budget <= 2000 ? "75" : budget <= 2500 ? "90" : "100"}%
-                        of max budget
-                      </p>
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-lg font-medium mb-2">
+                <div className="bg-gradient-to-br from-blue-900/20 to-blue-900/5 rounded-xl p-6 border border-blue-700/30">
+                  <h4 className="text-lg font-medium mb-3 text-blue-300">
                     Why This Configuration:
                   </h4>
-                  <p>
+                  <p className="text-gray-300">
                     Based on your budget of{" "}
-                    {budget <= 2000
-                      ? "up to €2,000"
-                      : budget <= 2500
-                      ? "€2,000-€2,500"
-                      : "€2,500+"}
+                    <span className="text-blue-300 font-medium">
+                      {budget <= 2000
+                        ? "up to €2,000"
+                        : budget <= 2500
+                        ? "€2,000-€2,500"
+                        : "€2,500+"}
+                    </span>{" "}
                     and preference for{" "}
-                    {prioritizeGPU
-                      ? "maximum performance"
-                      : prioritizeRAM
-                      ? "high RAM capacity"
-                      : prioritizeStorage
-                      ? "large storage"
-                      : "best value"}
+                    <span className="text-blue-300 font-medium">
+                      {prioritizeGPU
+                        ? "maximum performance"
+                        : prioritizeRAM
+                        ? "high RAM capacity"
+                        : prioritizeStorage
+                        ? "large storage"
+                        : "best value"}
+                    </span>
                     , this {primaryRecommendation.name} offers excellent AI
                     inference performance for
                     {modelSize === "small"
@@ -501,7 +733,7 @@ export default function BudgetCalculator() {
                     {budget >= 2500 ? "close to" : "comfortably within"} your
                     budget range.
                   </p>
-                  <p className="mt-2">
+                  <p className="mt-3 text-gray-300">
                     {primaryRecommendation.name.includes("4070 Ti")
                       ? "The RTX 4070 Ti provides 56% of the performance of an RTX 4090 at less than half the price, making it the sweet spot for value."
                       : primaryRecommendation.name.includes("4080")
@@ -513,25 +745,62 @@ export default function BudgetCalculator() {
                 </div>
 
                 {alternativeRecommendation && (
-                  <div>
-                    <h4 className="text-lg font-medium mb-2">
+                  <div className="mt-6 bg-gradient-to-br from-indigo-900/20 to-indigo-900/5 rounded-xl p-6 border border-indigo-700/30">
+                    <h4 className="text-lg font-medium mb-3 text-indigo-300 flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                        />
+                      </svg>
                       Alternative Option:
                     </h4>
-                    <p>
+                    <p className="text-gray-300">
                       If you're looking for{" "}
-                      {primaryRecommendation.price >
-                      alternativeRecommendation.price
-                        ? "additional savings"
-                        : "better performance"}
-                      , consider the
-                      <span className="text-blue-400">
-                        {" "}
+                      <span className="text-indigo-300 font-medium">
+                        {primaryRecommendation.price >
+                        alternativeRecommendation.price
+                          ? "additional savings"
+                          : "better performance"}
+                      </span>
+                      , consider the{" "}
+                      <span className="text-indigo-300 font-medium">
                         {alternativeRecommendation.name}
                       </span>{" "}
                       at {alternativeRecommendation.price}, which offers{" "}
                       {alternativeRecommendation.performance} of RTX 4090
                       performance.
                     </p>
+                    <div className="flex justify-end mt-4">
+                      <Link
+                        href={alternativeRecommendation.link}
+                        className="text-indigo-300 hover:text-indigo-200 transition-colors flex items-center gap-1"
+                      >
+                        <span>View details</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
@@ -539,6 +808,6 @@ export default function BudgetCalculator() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
