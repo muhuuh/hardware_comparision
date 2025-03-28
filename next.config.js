@@ -9,6 +9,7 @@ const nextConfig = {
   },
   output: "export",
   basePath: "/hardware_comparison",
+  assetPrefix: "/hardware_comparison",
 };
 
 module.exports = nextConfig;
