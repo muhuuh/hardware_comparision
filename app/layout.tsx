@@ -25,12 +25,12 @@ export default function RootLayout({
           <div className="glass">
             <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0 flex items-center">
-                <a
+                <Link
                   href="/"
                   className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-300 hover:to-blue-400 transition-all duration-300"
                 >
                   AI Hardware Research
-                </a>
+                </Link>
               </div>
               <nav className="flex flex-wrap gap-4 md:gap-8">
                 <Link
@@ -99,7 +99,7 @@ export default function RootLayout({
                 </h3>
                 <ul className="space-y-2 text-gray-400">
                   <li>
-                    <a
+                    <Link
                       href="/"
                       className="hover:text-blue-400 transition flex items-center gap-2"
                     >
@@ -118,10 +118,10 @@ export default function RootLayout({
                         />
                       </svg>
                       Home
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/desktops"
                       className="hover:text-blue-400 transition flex items-center gap-2"
                     >
@@ -140,10 +140,10 @@ export default function RootLayout({
                         />
                       </svg>
                       Top Desktops
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/compare"
                       className="hover:text-blue-400 transition flex items-center gap-2"
                     >
@@ -162,10 +162,10 @@ export default function RootLayout({
                         />
                       </svg>
                       Compare
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/calculator"
                       className="hover:text-blue-400 transition flex items-center gap-2"
                     >
@@ -184,7 +184,7 @@ export default function RootLayout({
                         />
                       </svg>
                       Calculator
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
