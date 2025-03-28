@@ -6,7 +6,7 @@ export default function Overview() {
       <div className="max-w-4xl w-full">
         {/* Hero Section */}
         <section className="mb-16 animate-slide-up">
-          <h1 className="text-5xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+          <h1 className="text-5xl font-bold mb-6 text-center sophisticated-title">
             Best Hardware for AI Inference
           </h1>
           <p className="text-xl text-center mb-10 text-gray-300 max-w-3xl mx-auto">
@@ -58,7 +58,7 @@ export default function Overview() {
           className="mb-12 card p-8 animate-fade-in"
           style={{ animationDelay: "0.2s" }}
         >
-          <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+          <h2 className="text-2xl font-semibold mb-4 sophisticated-title">
             Executive Summary
           </h2>
           <p className="mb-4">
@@ -79,7 +79,7 @@ export default function Overview() {
           className="mb-12 card p-8 animate-fade-in"
           style={{ animationDelay: "0.3s" }}
         >
-          <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+          <h2 className="text-2xl font-semibold mb-4 sophisticated-title">
             Key Findings
           </h2>
           <ul className="space-y-4">
@@ -192,7 +192,7 @@ export default function Overview() {
           className="mb-12 card p-8 animate-fade-in"
           style={{ animationDelay: "0.4s" }}
         >
-          <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+          <h2 className="text-2xl font-semibold mb-4 sophisticated-title">
             Key Performance Indicators for AI Inference
           </h2>
 
@@ -301,7 +301,7 @@ export default function Overview() {
           className="mb-12 card p-8 animate-fade-in"
           style={{ animationDelay: "0.5s" }}
         >
-          <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+          <h2 className="text-2xl font-semibold mb-4 sophisticated-title">
             Budget Considerations
           </h2>
           <p className="mb-4">

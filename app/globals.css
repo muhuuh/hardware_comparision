@@ -121,6 +121,29 @@ body {
   .value-badge-low {
     @apply bg-yellow-900/30 text-yellow-300 border border-yellow-700/50;
   }
+
+  /* Sophisticated title style */
+  .sophisticated-title {
+    @apply text-transparent font-bold;
+    background-image: linear-gradient(135deg, #2979ff, #56ccf2, #38b2ac);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 }
 
 @layer utilities {

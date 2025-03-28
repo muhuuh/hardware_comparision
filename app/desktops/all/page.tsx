@@ -1,603 +1,231 @@
 import Link from "next/link";
+import DesktopCard from "../../components/DesktopCard";
 
 export default function AllDesktops() {
+  // Data for all desktop options
+  const desktops = [
+    {
+      name: "Custom RTX 4070 Ti System",
+      price: "€2,000-2,500",
+      gpu: "RTX 4070 Ti (12GB)",
+      cpu: "AMD Ryzen 7 7800X3D or Intel Core i7-13700K",
+      ram: "32GB DDR5-5600",
+      storage: "1TB NVMe SSD + 2TB HDD",
+      performance: 56,
+      value: 9,
+      badge: "Best Value Option",
+      recommendation:
+        "Ideal for users comfortable with building their own system or hiring a local system builder. Offers the best performance-per-euro for AI workloads while staying well within budget.",
+    },
+    {
+      name: "Skytech Prism II",
+      price: "€2,350",
+      gpu: "RTX 4070 Ti (12GB)",
+      cpu: "AMD Ryzen 9 7900X (12C/24T)",
+      ram: "32GB DDR5-5600",
+      storage: "1TB NVMe SSD",
+      performance: 56,
+      value: 8,
+      badge: "Best Pre-built Option",
+      recommendation:
+        "Best for users who want a hassle-free experience with professional assembly, testing, and support. Offers strong performance while staying under the €2500 budget.",
+    },
+    {
+      name: "Custom RTX 4070 SUPER System",
+      price: "€1,600-1,900",
+      gpu: "RTX 4070 SUPER (12GB)",
+      cpu: "AMD Ryzen 5 7600X or Intel Core i5-13400F",
+      ram: "32GB DDR5-5200",
+      storage: "1TB NVMe SSD",
+      performance: 51,
+      value: 8,
+      badge: "Budget-Friendly Option",
+      recommendation:
+        "Ideal for users who want to maximize value while keeping costs well below the €2500 budget threshold. The savings could be used for other peripherals or software.",
+    },
+    {
+      name: "Custom RTX 4070 Ti SUPER System",
+      price: "€2,200-2,700",
+      gpu: "RTX 4070 Ti SUPER (16GB)",
+      cpu: "AMD Ryzen 7 7800X3D or Intel Core i7-14700K",
+      ram: "32GB DDR5-6000",
+      storage: "1TB NVMe SSD + 2TB HDD",
+      performance: 64,
+      value: 8,
+      badge: "Best 16GB VRAM Option",
+      recommendation:
+        "Great for users who need more VRAM for larger models while still maintaining excellent performance. May exceed the €2500 budget depending on configuration.",
+    },
+    {
+      name: "Custom RTX 4080 System",
+      price: "€2,300-2,800",
+      gpu: "RTX 4080 (16GB)",
+      cpu: "AMD Ryzen 7 7800X3D or Intel Core i7-13700K",
+      ram: "32GB DDR5-5600",
+      storage: "1TB NVMe SSD + 2TB HDD",
+      performance: 73,
+      value: 7,
+      badge: "High Performance Option",
+      recommendation:
+        "For users who need higher performance and are willing to potentially exceed the budget. The 16GB VRAM allows running larger models with better throughput.",
+    },
+    {
+      name: "Custom RTX 4080 SUPER System",
+      price: "€2,400-2,900",
+      gpu: "RTX 4080 SUPER (16GB)",
+      cpu: "AMD Ryzen 7 7800X3D or Intel Core i7-14700K",
+      ram: "32GB DDR5-6000",
+      storage: "1TB NVMe SSD + 2TB HDD",
+      performance: 78,
+      value: 7,
+      badge: "Premium Performance",
+      recommendation:
+        "Offers excellent performance with the ability to handle most AI models. Will likely exceed the €2500 budget but provides significant performance advantages.",
+    },
+    {
+      name: "Allied Gaming Patriot",
+      price: "€1,890",
+      gpu: "RTX 4070 Ti (12GB)",
+      cpu: "Intel Core i7-13700F (16C/24T)",
+      ram: "16GB DDR5",
+      storage: "1TB NVMe SSD",
+      performance: 56,
+      value: 8,
+      badge: "Affordable Pre-built",
+      recommendation:
+        "A solid pre-built option that stays under budget while offering good performance. The 16GB RAM is sufficient but could be upgraded later if needed.",
+    },
+    {
+      name: "CLX SET Gaming Desktop",
+      price: "€2,580",
+      gpu: "RTX 4070 Ti (12GB)",
+      cpu: "Intel Core i7 14700KF (20C/28T)",
+      ram: "32GB DDR5-5600",
+      storage: "2TB NVMe SSD + 6TB HDD",
+      performance: 56,
+      value: 7,
+      badge: "Storage Rich Option",
+      recommendation:
+        "Slightly exceeds the budget but includes substantial storage. Good for users who need to store many large models and datasets locally.",
+    },
+    {
+      name: "NZXT Player PC",
+      price: "€2,760",
+      gpu: "RTX 5080/5090 (16GB/24GB)",
+      cpu: "AMD Ryzen 7 9800X3D (8C/16T)",
+      ram: "32GB DDR5-6000",
+      storage: "2TB NVMe SSD",
+      performance: 92,
+      value: 7,
+      badge: "Next-Gen Performance",
+      recommendation:
+        "Exceeds the budget but offers next-generation GPU performance, making it more future-proof for upcoming larger AI models.",
+    },
+    {
+      name: "BIZON G3000",
+      price: "€2,850+",
+      gpu: "Up to 2x RTX 5090/4090 (24GB each)",
+      cpu: "AMD Ryzen 9000 Series",
+      ram: "Up to 192GB",
+      storage: "Not specified",
+      performance: 200,
+      value: 5,
+      badge: "Extreme AI Workstation",
+      recommendation:
+        "Far exceeds the budget but provides workstation-class performance. Only suitable for users with extreme requirements and the budget to match.",
+    },
+  ];
+
   return (
-    <main className="flex min-h-screen flex-col items-center p-8 md:p-24">
-      <div className="max-w-4xl w-full">
-        <div className="flex justify-between items-center mb-8">
+    <main className="flex min-h-screen flex-col items-center p-6 md:p-12">
+      <div className="max-w-6xl w-full">
+        <div className="text-center mb-12 animate-slide-up">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 sophisticated-title">
+            All Desktop Options
+          </h1>
+          <div className="flex justify-center">
+            <div className="max-w-3xl">
+              <p className="text-xl text-gray-300">
+                Compare all desktop systems for AI inference workloads, from
+                budget-friendly options to high-performance workstations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="mb-6 flex justify-between items-center animate-fade-in"
+          style={{ animationDelay: "0.2s" }}
+        >
+          <h2 className="text-2xl font-semibold text-blue-300">
+            Desktop Systems Comparison
+          </h2>
           <Link
-            href="/desktops"
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+            href="/compare"
+            className="px-4 py-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md"
           >
+            <span>Side-by-Side Comparison</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
-              <path d="m15 18-6-6 6-6" />
+              <path
+                fillRule="evenodd"
+                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
             </svg>
-            Back to Top Desktops
           </Link>
         </div>
 
-        <h1 className="text-4xl font-bold mb-8">
-          All 10 Desktop Computers for AI Inference
-        </h1>
-
-        <section className="mb-12 space-y-6">
-          {/* Desktop 1 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">
-                  1. Custom RTX 4070 Ti System
-                </h2>
-                <p className="text-green-400 font-medium">Best Value Option</p>
-                <p className="text-lg">€1,800-2,200</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 9/10</p>
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {desktops.map((desktop, index) => (
+            <div
+              key={index}
+              className="animate-fade-in"
+              style={{ animationDelay: `${0.2 + index * 0.1}s` }}
+            >
+              <DesktopCard
+                name={desktop.name}
+                price={desktop.price}
+                gpu={desktop.gpu}
+                cpu={desktop.cpu}
+                ram={desktop.ram}
+                storage={desktop.storage}
+                performance={desktop.performance}
+                value={desktop.value}
+                badge={desktop.badge}
+                recommendation={desktop.recommendation}
+              />
             </div>
+          ))}
+        </div>
 
-            <p className="mb-4">
-              This custom-built configuration offers the best balance of
-              performance and value for AI inference workloads. It provides
-              excellent GPU performance while leaving budget for high-quality
-              components throughout the system.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 4070 Ti
-                  (12GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 7 7700X or
-                  Intel Core i5-13600K
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-5600
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 1TB NVMe SSD +
-                  2TB HDD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 56%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Ideal for users comfortable with building their own system or
-                hiring a local system builder. Offers the best
-                performance-per-euro for AI workloads while staying well within
-                budget.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 2 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">2. Skytech Prism II</h2>
-                <p className="text-green-400 font-medium">
-                  Best Pre-built Option
-                </p>
-                <p className="text-lg">€2,350</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 8/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This pre-built system offers excellent AI performance with the RTX
-              4070 Ti while providing the convenience of a professionally built
-              system with warranty and support.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 4070 Ti
-                  (12GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 9 7900X
-                  (12C/24T)
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-5600
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 1TB NVMe SSD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 56%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Best for users who want a hassle-free experience with
-                professional assembly, testing, and support. Offers strong
-                performance while staying under the €2500 budget.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 3 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">
-                  3. Custom RTX 4070 SUPER System
-                </h2>
-                <p className="text-green-400 font-medium">
-                  Budget-Friendly Option
-                </p>
-                <p className="text-lg">€1,600-1,900</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 8/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This custom build offers a more budget-friendly alternative while
-              still providing excellent AI inference capabilities for most
-              models within its VRAM constraints.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 4070
-                  SUPER (12GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 5 7600X or
-                  Intel Core i5-13400F
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-5200
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 1TB NVMe SSD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 51%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Ideal for users who want to maximize value while keeping costs
-                well below the €2500 budget threshold. The savings could be used
-                for other peripherals or software.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 4 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">4. Skytech Chronos</h2>
-                <p className="text-green-400 font-medium">
-                  Best Performance Just Above Budget
-                </p>
-                <p className="text-lg">€2,580</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 8/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This pre-built system features the newer RTX 5080 GPU, offering
-              significantly better AI performance than RTX 4000 series options,
-              at a price point only slightly above the €2500 budget.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 5080
-                  (16GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 7 9800X3D
-                  (8C/16T)
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-6000
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 2TB NVMe SSD +
-                  6TB HDD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 85-90%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Ideal for users who can stretch their budget slightly and want
-                significantly better AI inference performance with newer
-                generation hardware.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 5 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">
-                  5. Custom RTX 4080 System
-                </h2>
-                <p className="text-green-400 font-medium">
-                  High Performance Option
-                </p>
-                <p className="text-lg">€2,300-2,800</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 7/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This custom configuration offers better performance than RTX 4070
-              Ti systems while potentially staying close to the €2500 budget
-              depending on component selection.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 4080
-                  (16GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 7 7800X3D
-                  or Intel Core i7-13700K
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-5600
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 1TB NVMe SSD +
-                  2TB HDD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 73%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Good for users who need higher performance than RTX 4070 Ti
-                systems offer and are willing to approach or slightly exceed the
-                budget limit.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 6 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">
-                  6. CLX SET Gaming Desktop
-                </h2>
-                <p className="text-green-400 font-medium">
-                  Well-Balanced Pre-built Option
-                </p>
-                <p className="text-lg">€2,580</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 7/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This pre-built system offers a good balance of CPU and GPU
-              performance with generous storage options, though it slightly
-              exceeds the €2500 budget.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 4070 Ti
-                  (12GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> Intel Core i7
-                  14700KF (20C/28T)
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-5600
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 2TB NVMe SSD +
-                  6TB HDD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 56%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Good for users who want a pre-built system with excellent CPU
-                performance and storage capacity, and can accept slightly lower
-                GPU performance.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 7 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">
-                  7. Custom RTX 4080 SUPER System
-                </h2>
-                <p className="text-green-400 font-medium">
-                  High Performance Custom Option
-                </p>
-                <p className="text-lg">€2,400-2,900</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 7/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This custom configuration offers performance approaching RTX 4090
-              levels while potentially staying close to the €2500 budget
-              depending on component selection.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 4080
-                  SUPER (16GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 7 7800X3D
-                  or Intel Core i7-14700K
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-6000
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 1TB NVMe SSD +
-                  2TB HDD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 78%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Excellent for users who prioritize performance and are willing
-                to potentially exceed the budget for near-flagship level AI
-                capabilities.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 8 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">8. NZXT Player PC</h2>
-                <p className="text-green-400 font-medium">
-                  Premium Pre-built Option
-                </p>
-                <p className="text-lg">€2,760</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 7/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This pre-built system from NZXT offers excellent build quality,
-              cooling, and component selection, with options for either RTX 5080
-              or RTX 5090 GPUs.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 5080
-                  (16GB VRAM) or RTX 5090 (24GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 7 9800X3D
-                  (8C/16T)
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> 32GB DDR5-6000
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> 2TB NVMe SSD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 85-100%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Best for users who prioritize build quality, aesthetics, and
-                cooling performance, and are willing to exceed the budget for a
-                premium experience.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 9 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">
-                  9. Lenovo Legion Tower 7i
-                </h2>
-                <p className="text-green-400 font-medium">
-                  High-End Pre-built from Major Manufacturer
-                </p>
-                <p className="text-lg">€3,300</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 6/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This system from Lenovo offers a premium, well-engineered solution
-              with professional support and warranty options, albeit at a
-              significantly higher price point than the €2500 budget.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> NVIDIA RTX 5080
-                  (16GB VRAM)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> Intel Core Ultra 9
-                  285K (24C/32T)
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> Up to 64GB DDR5-6400
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> Up to 2TB NVMe
-                  SSD
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> 85-90%
-                  relative to RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Suitable for enterprise users or those who prioritize
-                reliability, warranty, and professional support over value for
-                money.
-              </p>
-            </div>
-          </div>
-
-          {/* Desktop 10 */}
-          <div className="bg-white/5 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-              <div>
-                <h2 className="text-2xl font-semibold">10. BIZON G3000</h2>
-                <p className="text-green-400 font-medium">
-                  Specialized AI Workstation
-                </p>
-                <p className="text-lg">€2,850+</p>
-              </div>
-              <div className="bg-green-900/20 px-4 py-2 rounded-md">
-                <p className="font-medium">Value Rating: 5/10</p>
-              </div>
-            </div>
-
-            <p className="mb-4">
-              This specialized AI workstation is designed specifically for AI
-              workloads and offers options for multiple GPUs, making it the most
-              powerful but also the most expensive option on this list.
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-medium mb-2">Key Specifications:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <li>
-                  <span className="font-medium">GPU:</span> Up to 2x NVIDIA RTX
-                  5090/4090 (24GB VRAM each)
-                </li>
-                <li>
-                  <span className="font-medium">CPU:</span> AMD Ryzen 9000
-                  Series
-                </li>
-                <li>
-                  <span className="font-medium">RAM:</span> Up to 192GB DDR5
-                </li>
-                <li>
-                  <span className="font-medium">Storage:</span> Customizable
-                </li>
-                <li>
-                  <span className="font-medium">AI Performance:</span> Up to
-                  200% relative to single RTX 4090
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-medium mb-2">Recommendation:</h3>
-              <p>
-                Ideal for professional users who need maximum AI performance and
-                are willing to spend significantly more than the €2500 budget.
-              </p>
-            </div>
-          </div>
-        </section>
+        <div
+          className="flex justify-center mt-16 animate-fade-in"
+          style={{ animationDelay: "0.5s" }}
+        >
+          <Link
+            href="/compare"
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-lg font-medium text-white transition-all shadow-md hover:shadow-lg active:shadow-sm flex items-center gap-2"
+          >
+            <span>Compare Selected Desktops</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
     </main>
   );

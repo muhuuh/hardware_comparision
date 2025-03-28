@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import ComparisonTable from "../components/ComparisonTable";
+import SelectionCard from "../components/SelectionCard";
 
 export default function CompareDesktops() {
   const [selectedDesktops, setSelectedDesktops] = useState<number[]>([0, 1]); // Default to first two desktops
@@ -141,219 +143,132 @@ export default function CompareDesktops() {
   const comparisonData = getComparisonData();
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-8 md:p-24">
-      <div className="max-w-4xl w-full">
-        <h1 className="text-4xl font-bold mb-6">Compare Desktops</h1>
+    <div className="flex min-h-screen flex-col items-center p-6 md:p-12">
+      <div className="max-w-6xl w-full">
+        <div className="text-center mb-12 animate-slide-up">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 sophisticated-title">
+            Compare Desktop Systems
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Select and compare different desktop configurations side by side to
+            find your perfect match
+          </p>
+        </div>
 
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Selected Comparison</h2>
-          <p className="text-gray-400 mb-4">
-            Select up to three desktops from the options below to compare their
-            specifications side-by-side.
+        <div
+          className="mb-12 animate-fade-in"
+          style={{ animationDelay: "0.2s" }}
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold text-blue-300">
+              Selected Comparison
+            </h2>
+            <div className="text-sm px-4 py-2 bg-blue-900/20 rounded-full border border-blue-700/30 text-blue-300">
+              {selectedDesktops.length}/3 systems selected
+            </div>
+          </div>
+          <p className="text-gray-300 mb-6">
+            Select up to three desktop systems to compare their specifications
+            side-by-side. Click on any option below to add or remove it from the
+            comparison.
           </p>
 
-          <div className="overflow-x-auto bg-white/5 rounded-lg border border-gray-700 p-4">
-            <table className="w-full text-left border-collapse mb-4">
-              <thead>
-                <tr>
-                  <th className="border-b border-gray-700 p-4">Feature</th>
-                  {comparisonData.map((desktop, index) => (
-                    <th key={index} className="border-b border-gray-700 p-4">
-                      {desktop.name}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">Price</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.price}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">GPU</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.gpu}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">CPU</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.cpu}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">RAM</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.ram}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">Storage</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.storage}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">Performance</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.performance}%
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">Value Rating</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.value}/10
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-700 p-4">Under €2500</td>
-                  {comparisonData.map((desktop, index) => (
-                    <td key={index} className="border-b border-gray-700 p-4">
-                      {desktop.withinBudget === true ? (
-                        <span className="text-green-400">Yes</span>
-                      ) : desktop.withinBudget === false ? (
-                        <span className="text-red-400">No</span>
-                      ) : (
-                        <span className="text-yellow-400">
-                          Depends on configuration
-                        </span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
+          <ComparisonTable desktops={comparisonData} className="mb-6" />
+        </div>
+
+        <div
+          className="mb-12 animate-fade-in"
+          style={{ animationDelay: "0.3s" }}
+        >
+          <h2 className="text-2xl font-semibold mb-6 text-blue-300">
+            Select Desktops to Compare
+          </h2>
+          <p className="text-gray-300 mb-6">
+            Click on a desktop to select it for comparison. You can select up to
+            three options to compare simultaneously.
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            {desktops.map((desktop, index) => (
+              <SelectionCard
+                key={index}
+                name={desktop.name}
+                price={desktop.price}
+                gpu={desktop.gpu}
+                performance={desktop.performance}
+                value={desktop.value}
+                isSelected={selectedDesktops.includes(index)}
+                onClick={() => toggleDesktop(index)}
+              />
+            ))}
           </div>
         </div>
 
-        <h2 className="text-2xl font-semibold mb-4">
-          Select Desktops to Compare
-        </h2>
-        <p className="text-gray-400 mb-4">
-          Click on a desktop to select it for comparison. You can select up to
-          three options.
-        </p>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-          {desktops.map((desktop, index) => (
-            <div
-              key={index}
-              className={`bg-white/5 p-3 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors cursor-pointer ${
-                selectedDesktops.includes(index)
-                  ? "border-blue-500 bg-blue-900/10"
-                  : ""
-              }`}
-              onClick={() => toggleDesktop(index)}
-            >
-              <h3 className="text-md font-semibold">{desktop.name}</h3>
-              <p className="text-sm mb-1">{desktop.price}</p>
-              <p className="text-xs">GPU: {desktop.gpu}</p>
-              <p className="text-xs text-gray-400">
-                Performance: {desktop.performance}% | Value: {desktop.value}/10
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mb-8">
-          <button
-            onClick={() => setShowAllTable(!showAllTable)}
-            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-md transition-colors flex items-center gap-2"
-          >
-            <span>
-              {showAllTable ? "Hide All Desktops" : "Show All Desktops"}
-            </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={`transition-transform ${
-                showAllTable ? "rotate-180" : ""
-              }`}
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </button>
-        </div>
-
-        {showAllTable && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">
+        <div
+          className="mb-12 animate-fade-in"
+          style={{ animationDelay: "0.4s" }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-semibold text-blue-300">
               All Desktops Comparison
             </h2>
-            <div className="overflow-y-auto max-h-96 bg-white/5 rounded-lg border border-gray-700">
-              <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 bg-gray-800">
-                  <tr>
-                    <th className="border-b border-gray-700 p-4">Model</th>
-                    <th className="border-b border-gray-700 p-4">Price</th>
-                    <th className="border-b border-gray-700 p-4">GPU</th>
-                    <th className="border-b border-gray-700 p-4">CPU</th>
-                    <th className="border-b border-gray-700 p-4">RAM</th>
-                    <th className="border-b border-gray-700 p-4">Storage</th>
-                    <th className="border-b border-gray-700 p-4">
-                      Performance
-                    </th>
-                    <th className="border-b border-gray-700 p-4">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {desktops.map((desktop, index) => (
-                    <tr key={index} className="hover:bg-gray-800">
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.name}
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.price}
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.gpu}
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.cpu}
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.ram}
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.storage}
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.performance}%
-                      </td>
-                      <td className="border-b border-gray-700 p-4">
-                        {desktop.value}/10
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <button
+              onClick={() => setShowAllTable(!showAllTable)}
+              className="px-4 py-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white rounded-lg transition-colors flex items-center gap-2 shadow-md"
+            >
+              <span>
+                {showAllTable ? "Hide All Desktops" : "Show All Desktops"}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`transition-transform ${
+                  showAllTable ? "rotate-180" : ""
+                }`}
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
           </div>
-        )}
+
+          {showAllTable && (
+            <div className="animate-fade-in">
+              <ComparisonTable desktops={desktops} showVramColumn={true} />
+            </div>
+          )}
+        </div>
+
+        <div
+          className="flex justify-center mt-16 animate-fade-in"
+          style={{ animationDelay: "0.5s" }}
+        >
+          <Link
+            href="/calculator"
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-lg font-medium text-white transition-all shadow-md hover:shadow-lg active:shadow-sm flex items-center gap-2"
+          >
+            <span>Try Budget Calculator</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }

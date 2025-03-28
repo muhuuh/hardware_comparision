@@ -263,7 +263,7 @@ export default function BudgetCalculator() {
     <div className="flex min-h-screen flex-col items-center p-6 md:p-12">
       <div className="max-w-5xl w-full">
         <div className="text-center mb-12 animate-slide-up">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 sophisticated-title">
             AI Desktop Budget Calculator
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -277,7 +277,7 @@ export default function BudgetCalculator() {
             className="lg:col-span-1 card p-8 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            <h2 className="text-2xl font-semibold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+            <h2 className="text-2xl font-semibold mb-6 sophisticated-title">
               Your Preferences
             </h2>
 
@@ -445,7 +445,7 @@ export default function BudgetCalculator() {
             className="lg:col-span-2 card p-8 animate-fade-in"
             style={{ animationDelay: "0.3s" }}
           >
-            <h2 className="text-2xl font-semibold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">
+            <h2 className="text-2xl font-semibold mb-6 sophisticated-title">
               Recommended Configuration
               {calculationPerformed && (
                 <span className="text-sm text-green-400 ml-2 animate-pulse-subtle">
