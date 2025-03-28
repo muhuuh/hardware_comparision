@@ -8,6 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   output: "export",
+  basePath: "/hardware_comparison",
 };
 
 module.exports = nextConfig;
